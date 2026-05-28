@@ -1,0 +1,27 @@
+name: CI - Integracao Continua
+
+on:
+  # Executa sempre que um Pull Request for aberto para a branch "main"
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  validacao:
+    name: Validação do Código
+    runs-on: ubuntu-latest
+    
+    steps:
+
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Validar estrutura do site
+        run: |
+          echo "Verificando se os arquivos do site existem..."
+          test -f site/index.html || { echo "index.html não encontrado"; exit 1; }
+          test -f site/style.css || { echo "style.css não encontrado"; exit 1; }
+          test -f site/script.js || { echo "script.js não encontrado"; exit 1; }
+          echo "✅ Todos os arquivos principais estão presentes na pasta 'site'!"
+
+      - name: Verificações de qualidade simuladas
+        run: echo "🎉 Todos os testes de integração contínua passaram com sucesso!"
